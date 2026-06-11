@@ -11,6 +11,19 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
+    --color-brand-50: #f0fdfa;
+    --color-brand-100: #ccfbf1;
+    --color-brand-200: #99f6e4;
+    --color-brand-300: #5eead4;
+    --color-brand-400: #2dd4bf;
+    --color-brand-500: #14b8a6;
+    --color-brand-600: #0d9488;
+    --color-brand-700: #0f766e;
+    --color-brand-800: #115e59;
+    --color-brand-900: #134e4a;
+
+    --color-amber-glow: #fbbf24;
+
     --color-zinc-50: #fafafa;
     --color-zinc-100: #f5f5f5;
     --color-zinc-200: #e5e5e5;
@@ -23,8 +36,8 @@
     --color-zinc-900: #171717;
     --color-zinc-950: #0a0a0a;
 
-    --color-accent: var(--color-neutral-800);
-    --color-accent-content: var(--color-neutral-800);
+    --color-accent: var(--color-brand-600);
+    --color-accent-content: var(--color-brand-600);
     --color-accent-foreground: var(--color-white);
 }
 
@@ -44,6 +57,65 @@
     ::backdrop,
     ::file-selector-button {
         border-color: var(--color-gray-200, currentColor);
+    }
+}
+
+@layer components {
+    .app-mesh-bg {
+        background-color: var(--color-zinc-950);
+        background-image:
+            radial-gradient(ellipse 80% 60% at 10% -10%, color-mix(in oklab, var(--color-brand-600) 35%, transparent), transparent),
+            radial-gradient(ellipse 60% 50% at 90% 110%, color-mix(in oklab, var(--color-amber-glow) 18%, transparent), transparent),
+            radial-gradient(ellipse 40% 40% at 50% 50%, color-mix(in oklab, var(--color-brand-800) 20%, transparent), transparent);
+    }
+
+    .landing-grid {
+        background-image:
+            linear-gradient(color-mix(in oklab, var(--color-brand-500) 8%, transparent) 1px, transparent 1px),
+            linear-gradient(90deg, color-mix(in oklab, var(--color-brand-500) 8%, transparent) 1px, transparent 1px);
+        background-size: 48px 48px;
+    }
+
+    .board-accent-0 { --board-accent: var(--color-brand-500); }
+    .board-accent-1 { --board-accent: #8b5cf6; }
+    .board-accent-2 { --board-accent: var(--color-amber-glow); }
+    .board-accent-3 { --board-accent: #f472b6; }
+    .board-accent-4 { --board-accent: #38bdf8; }
+
+    .board-card {
+        @apply relative overflow-hidden rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-sm transition duration-200 dark:border-zinc-700/80 dark:bg-zinc-900;
+    }
+
+    .board-card::before {
+        content: '';
+        position: absolute;
+        inset-block: 0;
+        inset-inline-start: 0;
+        width: 4px;
+        background: var(--board-accent, var(--color-brand-500));
+        border-radius: 4px 0 0 4px;
+    }
+
+    .board-card:hover {
+        @apply border-zinc-300 shadow-md dark:border-zinc-600;
+        transform: translateY(-2px);
+    }
+
+    .stat-card {
+        @apply rounded-2xl border border-zinc-200/80 bg-white/80 p-5 backdrop-blur-sm dark:border-zinc-700/80 dark:bg-zinc-900/80;
+    }
+
+    .dashboard-hero {
+        @apply relative overflow-hidden rounded-2xl border border-brand-700/30 p-6 sm:p-8;
+        background: linear-gradient(135deg, var(--color-brand-800) 0%, var(--color-brand-950, #042f2e) 50%, var(--color-zinc-950) 100%);
+    }
+
+    .kanban-preview-col {
+        @apply flex flex-col gap-2 rounded-xl border border-white/10 bg-white/5 p-3 backdrop-blur-sm;
+    }
+
+    .kanban-preview-card {
+        @apply rounded-lg border border-white/10 bg-white/10 px-3 py-2 text-xs text-white/90;
     }
 }
 

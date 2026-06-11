@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Board;
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -16,16 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-
-        Board::factory()
-            ->count(2)
-            ->withDefaultColumns()
-            ->create([
-                'user_id' => $user->id,
-            ]);
+        $this->call(DemoSeeder::class);
     }
 }

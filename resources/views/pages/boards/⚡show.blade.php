@@ -84,7 +84,7 @@ new #[Title('Board')] class extends Component {
         $this->cancelAddingTask();
         $this->loadBoard();
 
-        Flux::toast(variant: 'success', text: __('Task created.'));
+        Flux::toast(variant: 'success', text: 'Задача создана.');
     }
 
     public function editTask(int $taskId): void
@@ -116,7 +116,7 @@ new #[Title('Board')] class extends Component {
         $this->closeTaskModal();
         $this->loadBoard();
 
-        Flux::toast(variant: 'success', text: __('Task updated.'));
+        Flux::toast(variant: 'success', text: 'Задача обновлена.');
     }
 
     public function deleteTask(): void
@@ -132,7 +132,7 @@ new #[Title('Board')] class extends Component {
         $this->closeTaskModal();
         $this->loadBoard();
 
-        Flux::toast(variant: 'success', text: __('Task deleted.'));
+        Flux::toast(variant: 'success', text: 'Задача удалена.');
     }
 
     public function sortTask(int $taskId, int $position, ?int $columnId = null): void
@@ -223,8 +223,16 @@ new #[Title('Board')] class extends Component {
             >
                 <div class="border-b border-zinc-200 px-4 py-3 dark:border-zinc-700">
                     <flux:heading size="sm">{{ $column->title }}</flux:heading>
+                    @php
+                        $tasksInColumn = $column->tasks->count();
+                        $tasksLabel = match (true) {
+                            $tasksInColumn % 10 === 1 && $tasksInColumn % 100 !== 11 => "{$tasksInColumn} задача",
+                            in_array($tasksInColumn % 10, [2, 3, 4], true) && ! in_array($tasksInColumn % 100, [12, 13, 14], true) => "{$tasksInColumn} задачи",
+                            default => "{$tasksInColumn} задач",
+                        };
+                    @endphp
                     <flux:text size="sm" class="text-zinc-500">
-                        {{ trans_choice(':count task|:count tasks', $column->tasks->count(), ['count' => $column->tasks->count()]) }}
+                        {{ $tasksLabel }}
                     </flux:text>
                 </div>
 
@@ -257,17 +265,17 @@ new #[Title('Board')] class extends Component {
                         <form wire:submit="saveNewTask({{ $column->id }})" class="space-y-2">
                             <flux:input
                                 wire:model="newTaskTitle"
-                                placeholder="{{ __('Task title...') }}"
+                                placeholder="Название задачи..."
                                 data-test="new-task-input-{{ $column->id }}"
                             />
 
                             <div class="flex gap-2">
                                 <flux:button size="sm" variant="primary" type="submit" data-test="save-task-{{ $column->id }}">
-                                    {{ __('Add') }}
+                                    Добавить
                                 </flux:button>
 
                                 <flux:button size="sm" variant="ghost" type="button" wire:click="cancelAddingTask">
-                                    {{ __('Cancel') }}
+                                    Отмена
                                 </flux:button>
                             </div>
                         </form>
@@ -281,7 +289,7 @@ new #[Title('Board')] class extends Component {
                                 wire:click="startAddingTask({{ $column->id }})"
                                 data-test="add-task-{{ $column->id }}"
                             >
-                                {{ __('Add task') }}
+                                Добавить задачу
                             </flux:button>
                         @endcan
                     @endif
@@ -293,28 +301,28 @@ new #[Title('Board')] class extends Component {
     <flux:modal name="edit-task" class="max-w-lg">
         <form wire:submit="updateTask" class="space-y-6">
             <div>
-                <flux:heading size="lg">{{ __('Edit task') }}</flux:heading>
+                <flux:heading size="lg">Редактирование задачи</flux:heading>
             </div>
 
-            <flux:input wire:model="taskTitle" :label="__('Title')" required />
+            <flux:input wire:model="taskTitle" label="Название" required />
 
-            <flux:textarea wire:model="taskDescription" :label="__('Description')" rows="4" />
+            <flux:textarea wire:model="taskDescription" label="Описание" rows="4" />
 
             <div class="flex justify-between gap-2">
                 @can('update', $board)
                     <flux:button variant="danger" type="button" wire:click="deleteTask" data-test="delete-task">
-                        {{ __('Delete') }}
+                        Удалить
                     </flux:button>
                 @endcan
 
                 <div class="ms-auto flex gap-2">
                     <flux:modal.close>
-                        <flux:button variant="ghost" type="button">{{ __('Cancel') }}</flux:button>
+                        <flux:button variant="ghost" type="button">Отмена</flux:button>
                     </flux:modal.close>
 
                     @can('update', $board)
                         <flux:button variant="primary" type="submit" data-test="save-task">
-                            {{ __('Save') }}
+                            Сохранить
                         </flux:button>
                     @endcan
                 </div>

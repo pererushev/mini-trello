@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Board;
 use App\Models\Task;
 use App\Models\User;
+use App\Support\BoardDefaults;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -27,7 +28,7 @@ class BoardFactory extends Factory
     public function withDefaultColumns(): static
     {
         return $this->afterCreating(function (Board $board): void {
-            foreach (['To Do', 'In Progress', 'Done'] as $index => $title) {
+            foreach (BoardDefaults::COLUMN_TITLES as $index => $title) {
                 $column = $board->columns()->create([
                     'title' => $title,
                     'order' => $index,

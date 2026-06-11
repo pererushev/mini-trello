@@ -4,6 +4,7 @@ use App\Models\Board;
 use App\Models\Column;
 use App\Models\Task;
 use App\Models\User;
+use App\Support\BoardDefaults;
 use Livewire\Livewire;
 
 test('guests are redirected from boards index', function () {
@@ -35,7 +36,7 @@ test('user can create a board with default columns', function () {
     expect($board)->not->toBeNull();
     expect($board->user_id)->toBe($user->id);
     expect($board->columns)->toHaveCount(3);
-    expect($board->columns->pluck('title')->all())->toBe(['To Do', 'In Progress', 'Done']);
+    expect($board->columns->pluck('title')->all())->toBe(BoardDefaults::COLUMN_TITLES);
 });
 
 test('user can view their board', function () {
@@ -90,8 +91,8 @@ test('user can move tasks between columns', function () {
     $user = User::factory()->create();
     $board = Board::factory()->withDefaultColumns()->create(['user_id' => $user->id]);
 
-    $sourceColumn = $board->columns()->where('title', 'To Do')->first();
-    $targetColumn = $board->columns()->where('title', 'In Progress')->first();
+    $sourceColumn = $board->columns()->where('title', BoardDefaults::COLUMN_TODO)->first();
+    $targetColumn = $board->columns()->where('title', BoardDefaults::COLUMN_IN_PROGRESS)->first();
 
     $task = Task::factory()->create([
         'column_id' => $sourceColumn->id,

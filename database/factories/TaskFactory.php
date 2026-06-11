@@ -18,8 +18,8 @@ class TaskFactory extends Factory
     {
         return [
             'column_id' => Column::factory(),
-            'title' => fake()->sentence(2),
-            'description' => fake()->optional()->sentence(),
+            'title' => fake('ru_RU')->words(3, true),
+            'description' => fake('ru_RU')->optional()->sentence(),
             'order' => 0,
         ];
     }
