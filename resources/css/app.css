@@ -64,16 +64,33 @@
     .app-mesh-bg {
         background-color: var(--color-zinc-950);
         background-image:
-            radial-gradient(ellipse 80% 60% at 10% -10%, color-mix(in oklab, var(--color-brand-600) 35%, transparent), transparent),
-            radial-gradient(ellipse 60% 50% at 90% 110%, color-mix(in oklab, var(--color-amber-glow) 18%, transparent), transparent),
-            radial-gradient(ellipse 40% 40% at 50% 50%, color-mix(in oklab, var(--color-brand-800) 20%, transparent), transparent);
+            radial-gradient(ellipse 70% 50% at 0% 0%, color-mix(in oklab, var(--color-brand-700) 22%, transparent), transparent),
+            radial-gradient(ellipse 50% 40% at 100% 100%, color-mix(in oklab, var(--color-brand-800) 15%, transparent), transparent);
     }
 
-    .landing-grid {
-        background-image:
-            linear-gradient(color-mix(in oklab, var(--color-brand-500) 8%, transparent) 1px, transparent 1px),
-            linear-gradient(90deg, color-mix(in oklab, var(--color-brand-500) 8%, transparent) 1px, transparent 1px);
-        background-size: 48px 48px;
+    .landing-preview {
+        @apply relative;
+    }
+
+    .landing-preview::before {
+        content: '';
+        position: absolute;
+        inset: -1rem;
+        border-radius: 1.5rem;
+        background: linear-gradient(135deg, color-mix(in oklab, var(--color-brand-600) 15%, transparent), transparent 60%);
+        filter: blur(24px);
+    }
+
+    .landing-preview-window {
+        @apply relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/90 shadow-2xl shadow-black/40 backdrop-blur-sm;
+    }
+
+    .landing-feature {
+        @apply flex items-start gap-3.5 rounded-xl border border-zinc-800/80 bg-zinc-900/50 p-4;
+    }
+
+    .landing-feature-icon {
+        @apply flex size-10 shrink-0 items-center justify-center rounded-lg bg-brand-500/10 text-brand-400;
     }
 
     .board-accent-0 { --board-accent: var(--color-brand-500); }
@@ -111,11 +128,11 @@
     }
 
     .kanban-preview-col {
-        @apply flex flex-col gap-2 rounded-xl border border-white/10 bg-white/5 p-3 backdrop-blur-sm;
+        @apply flex flex-col gap-1.5 rounded-lg border border-zinc-800/80 bg-zinc-950/50 p-2.5;
     }
 
     .kanban-preview-card {
-        @apply rounded-lg border border-white/10 bg-white/10 px-3 py-2 text-xs text-white/90;
+        @apply rounded-md border border-zinc-800 bg-zinc-800/60 px-2.5 py-1.5 text-[11px] text-zinc-300;
     }
 }
 
